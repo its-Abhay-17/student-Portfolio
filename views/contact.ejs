@@ -1,2 +1,19 @@
 <% layout('layout/boilerplate') -%>
-    <h1>I am contact</h1>
+    <section class="hero-section">
+        <div class="form">
+            <form method="POST" action="/contact">
+                <label  for="username">ENTER YOUR NAME</label>
+                <input name="username" type="text" id="username">
+
+                <label  for="phone">ENTER YOUR PHONE NUMBER</label>
+                <input name="phone" type="text" id="phone">
+
+                <label  for="email">ENTER YOUR E-MAIL ADDRESS</label>
+                <input name= "email" type="text" id="email">
+
+                <label for="message">You can send message</label>
+                <textarea name="message" id="message" placeholder="Enter your message"></textarea>
+                <button id="btn">Submit</button>
+            </form> 
+        </div>
+    </section>

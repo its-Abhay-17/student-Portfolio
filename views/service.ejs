@@ -1,2 +1,14 @@
 <% layout('layout/boilerplate') -%>
-    <h1>I am Service</h1>
+<section class="hero-section">
+    <div class="service-container">
+  <div class="service-grid">
+    <% for (let item of allServices) { %>
+      <div class="each-card">
+        <img src="<%= item.img.url %>" alt="<%= item.img.name %>">
+        <h3><%= item.title %></h3>
+        <p class="price">₹<%= item.price.toLocaleString('en-IN') %></p>
+      </div>
+    <% } %>
+  </div>
+</div>
+</section>

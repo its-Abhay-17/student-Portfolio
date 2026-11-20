@@ -1,84 +1,423 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+
+/* 1. Make the page fill at least 100% of the screen height */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
 }
 
 /* STYLING NAVBAR */
 
 .navbar {
-    height: 10vh;
-    width: 90vw;
-    background-color: rgba(0, 255, 255, 0.559);
-    border-radius: .6rem;
-    margin: 1rem auto;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+  height: 10vh;
+  width: 90vw;
+  background-color: white;
+  border-radius: .6rem;
+  margin: 1rem auto;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid black;
+  z-index: 100;
 }
 
 .logo {
-    height: 80%;
-    width: 45%;
-    border: 3px solid red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
+  height: 80%;
+  width: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
 }
 
 .nav-links {
-    height: 80%;
-    width: 45%;
-    border: 3px solid red;
-    display: flex;
-    justify-content: space-evenly;
-    list-style: none;
-    align-items: center;
-    font-size: 1.5rem;
-    font-weight: 650;
+  height: 80%;
+  width: 45%;
+  display: flex;
+  justify-content: space-evenly;
+  list-style: none;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 650;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
+  color: #6c63ff;
 }
 
 
 /* STYLING HOME-PAGE */
 
-.hero-section{
-    height: 80vh;
-    width: 90vw;
-    margin: 1rem auto;
-    border: 3px solid blue;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+.hero-section {
+  height: 80vh;
+  width: 90vw;
+  margin: 1rem auto;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
-.content-Hero-section{
-    height: 50%;
-    width: 45%;
-    border: 3px solid green;
+.content-Hero-section {
+  height: 60%;
+  width: 45%;
+  font-size: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
 }
 
-.img-Hero-section{
-    height: 85%;
-    width: 45%;
-    border: 3px solid green;
+.content-Hero-section p {
+  font-size: 1.5rem;
+  font-weight: 700;
 }
-img{
-    height: 100%;
+
+.profile-icons {
+  height: 10vh;
+  width: 12vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
+
+.img-Hero-section {
+  height: 85%;
+  width: 45%;
+}
+
+img {
+  height: 100%;
+}
+
+/* STYLING ABOUT-PAGE */
+/* wrapper holding all the rows */
+.about {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  /* space between rows */
+}
+
+/* each aqua div = one row */
+.about-row {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  /* space between the two spans */
+}
+
+/* each red span = one cell, equal width */
+.about-cell {
+  flex: 1;
+  min-width: 0;
+  /* prevents overflow from long content */
+  min-height: 260px;
+  /* use min-height, never a fixed height */
+  padding: 1.5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* image cell */
+.about-cell img {
+  width: 100%;
+  height: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* text cell */
+.about-text {
+  text-align: left;
+}
+
+.about-text h4 {
+  color: #6c63ff;
+  letter-spacing: 2px;
+  margin-bottom: 0.25rem;
+}
+
+.about-text h2 {
+  font-size: 2rem;
+  margin: 0 0 1rem;
+}
+
+.about-text p {
+  line-height: 1.7;
+  color: #444;
+  margin: 0;
+}
+
+/* tech icons cell */
+.tech-icons {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.tech-icons i {
+  width: 56px;
+  height: 56px;
+  font-size: 3rem;
+  object-fit: contain;
+}
+
+/*  flip every second row (image left, then image right) */
+.about-row:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+/* mobile: stack the cells */
+@media (max-width: 768px) {
+
+  .about-row,
+  .about-row:nth-child(even) {
+    flex-direction: column;
+  }
+}
+
+/* card wrapper */
+.lets-connect {
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(108, 99, 255, 0.15);
+  box-sizing: border-box;
+}
+
+/* small label: "GET IN TOUCH" (same as ABOUT ME / TECH STACK) */
+.lets-connect .techStack {
+  color: #6c63ff;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin: 0 0 0.25rem;
+}
+
+/* heading */
+.lets-connect h3 {
+  font-size: 2rem;
+  margin: 0 0 1rem;
+  text-transform: uppercase;
+}
+
+/* description paragraph */
+.lets-connect p {
+  line-height: 1.7;
+  color: #444;
+  margin: 0 0 1rem;
+}
+
+/* button */
+#touch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: #6c63ff;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+#touch:hover {
+  background: #5148d8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(108, 99, 255, 0.4);
+}
+
+#touch i {
+  transition: transform 0.2s ease;
+}
+
+#touch:hover i {
+  transform: translateX(4px);
+}
+
+/* divider */
+.lets-connect hr {
+  border: none;
+  height: 1px;
+  background: #ddd;
+  margin: 2rem auto;
+  width: 80%;
+}
+
+/* contact rows: email, phone, location */
+.lets-connect hr~p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin: 0.6rem 0;
+  font-weight: 500;
+}
+
+.lets-connect hr~p i {
+  width: 20px;
+  text-align: center;
+}
+
+/* mobile */
+@media (max-width: 768px) {
+  .lets-connect {
+    margin: 2rem 1rem;
+    padding: 2rem 1.2rem;
+  }
+
+  .lets-connect h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* STYLING SERVICE-PAGE */
+
+.service-container {
+  height: 100%;
+  width: max-content;
+  margin-bottom: 5rem;
+}
+
+
+/* this div holds all the cards, so it becomes the grid */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* 2 cards per row */
+  gap: 2rem;
+}
+
+/* each individual card */
+.each-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(108, 99, 255, 0.15);
+  padding: 1.5rem;
+  text-align: center;
+  box-sizing: border-box;
+  color: black;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.each-card:hover {
+  transform: translateY(-6px);
+  color: #5148d8;
+  background-color: rgba(128, 128, 128, 0.384);
+  box-shadow: 0 12px 36px rgba(108, 99, 255, 0.25);
+}
+
+.each-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.each-card h1 {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem;
+}
+
+.each-card h2 {
+  font-size: 1.2rem;
+  color: #6c63ff;
+  /* same purple as your other sections */
+  margin: 0;
+}
+
+/* phones: 1 card per row */
+@media (max-width: 600px) {
+  .service-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* STYLING CONTACT-PAGE */
+
+form {
+  height: 70vh;
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  margin: 2rem 0 0 2rem;
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 1rem;
+}
+
+label {
+  margin-left: 1rem;
+  margin-top: 1rem;
+  font-size: large;
+  font-weight: 560;
+}
+
+
+input {
+  margin-left: 1rem;
+  width: 90%;
+  height: 2rem;
+  border: 1px solid black;
+  border-radius: .3rem;
+  font-size: medium;
+  margin-bottom: 1rem;
+}
+
+textarea {
+  margin-left: 1rem;
+  font-size: large;
+  font-weight: 560;
+  height: 25vh;
+  width: 90%;
+}
+
+#btn {
+  margin: 0.2rem auto;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #242424;
+  color: azure;
+  font-size: 1.5rem;
+  font-weight: 750;
+  border-radius: 10px;
+}
+
 /* STYLING FOOTER */
 
-.footer {
-  background: #1a1a2e;
-  color: #ccc;
+footer {
+  position: relative;
+  /* Overrides any position: fixed or absolute */
+  width: 100%;
+  background-color: #111827;
+  /* Dark solid background so white text is readable */
+  color: #ffffff;
   text-align: center;
-  padding: 1rem 2rem;
+  padding: 1rem 0;
+  margin-top: auto;
 }
