@@ -5,30 +5,35 @@ const port = process.env.PORT || 3000;
 const path = require('path');
 const engine = require('ejs-mate');
 const connectDB = require("./database/init");
-const { service } = require('./models/contact');
-const Contact = require("./models/contact");
+const { contact,service } = require('./models/contact'); // see note below
 
+app.engine('ejs', engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.engine('ejs', engine);
 app.use(express.static(path.join(__dirname, 'public')));
 
-// read form data
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-//app.get('/home', (req, res) => res.render('home'));
-app.get('/home', (req,res)=>{
-  console.log("home page")
-  res.render('home')
-})
+// Connect to DB on each request (cached, so it's cheap after the first one)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("Database connection failed:", err);
+    res.status(500).send("Database connection failed");
+  }
+});
+
+app.get('/', (req, res) => res.redirect('/home'));
+app.get('/home', (req, res) => res.render('home'));
 app.get('/about', (req, res) => res.render('about'));
 
 app.get('/service', async (req, res) => {
   try {
     const allServices = await service.find({});
-    console.log("here is service page", allServices);
-    return res.render('service', { allServices }); 
+    return res.render('service', { allServices });
   } catch (err) {
     console.error(err);
     return res.status(500).send("Error fetching services");
@@ -40,26 +45,17 @@ app.get('/contact', (req, res) => res.render('contact'));
 app.post('/contact', async (req, res) => {
   try {
     const { username, phone, email, message } = req.body;
-    await Contact.create({ username, phone, email, message });
-    console.log("Saved:", { username, phone, email, message });
+    await contact.create({ username, phone, email, message });
     return res.redirect('/home');
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(400).send("Error: " + err.message);
   }
 });
 
-// Connect to MongoDB first, then start the server
-const startServer = async () => {
-  try {
-    await connectDB();
-    app.listen(port, () => {
-      console.log(`Example app listening on port ${port}`);
-    });
-  } catch (err) {
-    console.error("Database connection failed:", err);
-    process.exit(1);
-  }
-};
+// Only listen when running locally
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => console.log(`http://localhost:${port}`));
+}
 
-startServer();
+module.exports = app;
