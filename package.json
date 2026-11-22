@@ -1,0 +1,29 @@
+{
+  "name": "student-portfolio",
+  "version": "1.0.0",
+  "description": "A student Portfolio",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/its-Abhay-17/student-Portfolio.git"
+  },
+  "author": "Abhay",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/its-Abhay-17/student-Portfolio/issues"
+  },
+  "homepage": "https://github.com/its-Abhay-17/student-Portfolio#readme",
+  "dependencies": {
+    "dotenv": "^18.0.10",
+    "ejs": "^7.0.2",
+    "ejs-mate": "^4.0.0",
+    "express": "^5.3.0",
+    "express-ejs-layouts": "^2.5.1",
+    "mongodb": "^7.9.0",
+    "mongoose": "^9.12.1",
+    "nodemon": "^3.1.14"
+  }
+}
