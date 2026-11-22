@@ -1,0 +1,12 @@
+<% layout('layout/boilerplate') -%>
+<div class="success-card">
+  <h2>Thanks, <%= values.username %>! Your message was sent.</h2>
+  <p>Here is what you submitted:</p>
+  <dl>
+    <dt>Name</dt><dd><%= values.username %></dd>
+    <dt>Phone</dt><dd><%= values.phone %></dd>
+    <dt>Email</dt><dd><%= values.email %></dd>
+    <dt>Message</dt><dd><%= values.message %></dd>
+  </dl>
+  <a href="/home" class="success-btn">Back to home</a>
+</div>

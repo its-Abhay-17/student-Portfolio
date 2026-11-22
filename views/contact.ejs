@@ -2,18 +2,47 @@
     <section class="hero-section">
         <div class="form">
             <form method="POST" action="/contact">
-                <label  for="username">ENTER YOUR NAME</label>
-                <input name="username" type="text" id="username">
+                <% if (errors.form) { %>
+                    <p class="form-alert"><%= errors.form %></p>
+                <% } %>
 
-                <label  for="phone">ENTER YOUR PHONE NUMBER</label>
-                <input name="phone" type="text" id="phone">
+                <label for="username">ENTER YOUR NAME</label>
+                <input name="username" type="text" id="username"
+                       required minlength="2" maxlength="50"
+                       value="<%= values.username || '' %>"
+                       class="<%= errors.username ? 'input-error' : '' %>">
+                <% if (errors.username) { %>
+                    <small class="error-text"><%= errors.username %></small>
+                <% } %>
 
-                <label  for="email">ENTER YOUR E-MAIL ADDRESS</label>
-                <input name= "email" type="text" id="email">
+                <label for="phone">ENTER YOUR PHONE NUMBER</label>
+                <input name="phone" type="tel" id="phone"
+                       required pattern="\+?[0-9\s\-]{10,18}"
+                       title="Enter 10 to 15 digits"
+                       value="<%= values.phone || '' %>"
+                       class="<%= errors.phone ? 'input-error' : '' %>">
+                <% if (errors.phone) { %>
+                    <small class="error-text"><%= errors.phone %></small>
+                <% } %>
+
+                <label for="email">ENTER YOUR E-MAIL ADDRESS</label>
+                <input name="email" type="email" id="email"
+                       required
+                       value="<%= values.email || '' %>"
+                       class="<%= errors.email ? 'input-error' : '' %>">
+                <% if (errors.email) { %>
+                    <small class="error-text"><%= errors.email %></small>
+                <% } %>
 
                 <label for="message">You can send message</label>
-                <textarea name="message" id="message" placeholder="Enter your message"></textarea>
-                <button id="btn">Submit</button>
-            </form> 
+                <textarea name="message" id="message" placeholder="Enter your message"
+                          required minlength="10" maxlength="500"
+                          class="<%= errors.message ? 'input-error' : '' %>"><%= values.message || '' %></textarea>
+                <% if (errors.message) { %>
+                    <small class="error-text"><%= errors.message %></small>
+                <% } %>
+
+                <button id="btn" type="submit">Submit</button>
+            </form>
         </div>
     </section>

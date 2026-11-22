@@ -5,8 +5,7 @@ const port = process.env.PORT || 3000;
 const path = require('path');
 const engine = require('ejs-mate');
 const connectDB = require("./database/init");
-const { contact,service } = require('./models/contact'); // see note below
-
+const { contact: Contact, service } = require("./models/contact");
 app.engine('ejs', engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -40,16 +39,53 @@ app.get('/service', async (req, res) => {
   }
 });
 
-app.get('/contact', (req, res) => res.render('contact'));
+function validateContact(body) {
+  const values = {
+    username: (body.username || "").trim(),
+    phone: (body.phone || "").replace(/[\s-]/g, ""),
+    email: (body.email || "").trim().toLowerCase(),
+    message: (body.message || "").trim(),
+  };
+
+  const errors = {};
+
+  if (values.username.length < 2 || values.username.length > 50)
+    errors.username = "Name must be 2 to 50 characters.";
+
+  if (!/^\+?[0-9]{10,15}$/.test(values.phone))
+    errors.phone = "Enter a valid phone number (10 to 15 digits).";
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email))
+    errors.email = "Enter a valid email address.";
+
+  if (values.message.length < 10 || values.message.length > 500)
+    errors.message = "Message must be 10 to 500 characters.";
+
+  return { values, errors };
+}
+
+app.get('/contact', (req, res) => {
+  res.render('contact', { errors: {}, values: {} });
+});
 
 app.post('/contact', async (req, res) => {
+  const { values, errors } = validateContact(req.body);
+
+  // Validation failed: show the form again with errors and what they typed
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).render('contact', { errors, values });
+  }
+
   try {
-    const { username, phone, email, message } = req.body;
-    await contact.create({ username, phone, email, message });
-    return res.redirect('/home');
+    await Contact.create(values);
+    // Success: show what was submitted instead of redirecting
+    return res.render('contact-success', { values });
   } catch (err) {
     console.error(err);
-    return res.status(400).send("Error: " + err.message);
+    return res.status(500).render('contact', {
+      errors: { form: "Something went wrong. Please try again." },
+      values,
+    });
   }
 });
 
