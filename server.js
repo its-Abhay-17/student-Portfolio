@@ -1,4 +1,5 @@
 require("dotenv").config();
+const nodemailer = require("nodemailer");
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -14,6 +15,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS, // Gmail App Password
+  },
+});
 // Connect to DB on each request (cached, so it's cheap after the first one)
 app.use(async (req, res, next) => {
   try {
@@ -71,15 +79,12 @@ app.get('/contact', (req, res) => {
 app.post('/contact', async (req, res) => {
   const { values, errors } = validateContact(req.body);
 
-  // Validation failed: show the form again with errors and what they typed
   if (Object.keys(errors).length > 0) {
     return res.status(400).render('contact', { errors, values });
   }
 
   try {
     await Contact.create(values);
-    // Success: show what was submitted instead of redirecting
-    return res.render('contact-success', { values });
   } catch (err) {
     console.error(err);
     return res.status(500).render('contact', {
@@ -87,6 +92,26 @@ app.post('/contact', async (req, res) => {
       values,
     });
   }
+
+  // Notify yourself. Separate try/catch so a mail failure
+  // doesn't break the form after the data is already saved.
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
+      replyTo: values.email,
+      subject: `New portfolio message from ${values.username}`,
+      text:
+        `Name: ${values.username}\n` +
+        `Email: ${values.email}\n` +
+        `Phone: ${values.phone}\n\n` +
+        `Message:\n${values.message}`,
+    });
+  } catch (err) {
+    console.error("Email error:", err);
+  }
+
+  return res.render('contact-success', { values });
 });
 
 // Only listen when running locally
